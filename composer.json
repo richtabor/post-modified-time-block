@@ -1,0 +1,17 @@
+{
+	"name": "richtabor/post-modified-time-block",
+	"description": "Display the last updated date of a post, for posts older than 24 hours.",
+	"version": "1.0.0",
+	"type": "wordpress-plugin",
+	"homepage": "https://richtabor.com",
+	"license": "GPLv2 or later",
+	"require-dev": {
+		"wp-coding-standards/wpcs": "^2.2",
+		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
+	},
+	"scripts": {
+		"lint": "./vendor/bin/phpcs",
+		"lint-fix": "./vendor/bin/phpcbf --extensions=php ."
+	},
+	"minimum-stability": "dev"
+}
