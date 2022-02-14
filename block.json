@@ -3,7 +3,7 @@
 	"name": "tabor/post-modified-time",
 	"title": "Modified Time",
 	"category": "theme",
-	"description": "Display the last updated date of a post, for posts older than 24 hours.",
+	"description": "Display the last updated date for posts older than 24 hours.",
         "keywords": [ "tabor", "time", "date"],
 	"textdomain": "post-modified-time-block",
 	"attributes": {
