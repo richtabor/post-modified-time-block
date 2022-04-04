@@ -23,7 +23,13 @@
         "supports": {
 		"html": false,
 		"color": {
-			"background": false
+			"background": false,
+			"__experimentalDefaultControls": {
+				"text": true
+			}
+		},
+		"spacing": {
+			"margin": true
 		},
 		"typography": {
 			"fontSize": true,
