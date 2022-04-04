@@ -24,5 +24,8 @@ As a WordPress entrepreneur, designer and developer all wrapped up in one, [@ric
 
 == Changelog ==
 
+= 0.1.1 =
+* Remove excess files
+
 = 0.1.0 =
 * Initial release
