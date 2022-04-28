@@ -64,7 +64,7 @@ export default function UpdatedTimeEdit( {
 				/>
 			</BlockControls>
 			<InspectorControls>
-				<PanelBody title={ __( 'Format settings' ) }>
+				<PanelBody title={ __( 'Settings' ) }>
 					<CustomSelectControl
 						hideLabelFromVision
 						label={ __( 'Date Format' ) }
