@@ -93,7 +93,7 @@
 /*! exports provided: apiVersion, name, title, category, description, keywords, textdomain, attributes, usesContext, supports, editorScript, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"apiVersion\":2,\"name\":\"tabor/post-modified-time\",\"title\":\"Modified Time\",\"category\":\"theme\",\"description\":\"Display the last updated date for posts older than 24 hours.\",\"keywords\":[\"tabor\",\"time\",\"date\"],\"textdomain\":\"post-modified-time-block\",\"attributes\":{\"content\":{\"type\":\"string\",\"selector\":\"span\",\"default\":\"Updated\"},\"textAlign\":{\"type\":\"string\"},\"format\":{\"type\":\"string\"}},\"usesContext\":[\"postId\",\"postType\"],\"supports\":{\"html\":false,\"color\":{\"background\":false,\"__experimentalDefaultControls\":{\"text\":true}},\"spacing\":{\"margin\":true},\"typography\":{\"fontSize\":true,\"lineHeight\":true,\"__experimentalFontFamily\":true,\"__experimentalFontWeight\":true,\"__experimentalFontStyle\":true,\"__experimentalTextTransform\":true,\"__experimentalLetterSpacing\":true,\"__experimentalDefaultControls\":{\"fontSize\":true}}},\"editorScript\":\"file:./build/index.js\"}");
+module.exports = JSON.parse("{\"apiVersion\":2,\"name\":\"tabor/post-modified-time\",\"title\":\"Modified Time\",\"category\":\"theme\",\"description\":\"Display the last updated date for posts older than 24 hours.\",\"keywords\":[\"tabor\",\"time\",\"date\"],\"textdomain\":\"post-modified-time-block\",\"attributes\":{\"content\":{\"type\":\"string\",\"selector\":\"span\",\"default\":\"Updated\"},\"textAlign\":{\"type\":\"string\"},\"format\":{\"type\":\"string\"}},\"usesContext\":[\"postId\",\"postType\",\"queryId\"],\"supports\":{\"html\":false,\"color\":{\"background\":false,\"__experimentalDefaultControls\":{\"text\":true}},\"spacing\":{\"margin\":true},\"typography\":{\"fontSize\":true,\"lineHeight\":true,\"__experimentalFontFamily\":true,\"__experimentalFontWeight\":true,\"__experimentalFontStyle\":true,\"__experimentalTextTransform\":true,\"__experimentalLetterSpacing\":true,\"__experimentalDefaultControls\":{\"fontSize\":true}}},\"editorScript\":\"file:./build/index.js\"}");
 
 /***/ }),
 
@@ -181,14 +181,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_core_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/core-data */ "@wordpress/core-data");
 /* harmony import */ var _wordpress_core_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_core_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/date */ "@wordpress/date");
-/* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_date__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/date */ "@wordpress/date");
+/* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_date__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_7__);
 
 
 /**
@@ -204,6 +206,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 function UpdatedTimeEdit({
   attributes: {
     textAlign,
@@ -212,28 +216,24 @@ function UpdatedTimeEdit({
   },
   context: {
     postId,
-    postType
+    postType: postTypeSlug,
+    queryId
   },
   setAttributes
 }) {
-  const [siteFormat] = Object(_wordpress_core_data__WEBPACK_IMPORTED_MODULE_2__["useEntityProp"])('root', 'site', 'date_format');
-  const [date] = Object(_wordpress_core_data__WEBPACK_IMPORTED_MODULE_2__["useEntityProp"])('postType', postType, 'date', postId);
-
-  const settings = Object(_wordpress_date__WEBPACK_IMPORTED_MODULE_3__["__experimentalGetSettings"])();
-
-  const formatOptions = Object.values(settings.formats).map(formatOption => ({
-    key: formatOption,
-    name: Object(_wordpress_date__WEBPACK_IMPORTED_MODULE_3__["dateI18n"])(formatOption, date)
-  }));
-  const resolvedFormat = format || siteFormat || settings.formats.date;
-  const blockProps = Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["useBlockProps"])({
+  const blockProps = Object(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["useBlockProps"])({
     className: classnames__WEBPACK_IMPORTED_MODULE_1___default()({
       [`has-text-align-${textAlign}`]: textAlign
     })
   });
-  const postDate = date ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("time", {
-    dateTime: Object(_wordpress_date__WEBPACK_IMPORTED_MODULE_3__["dateI18n"])('c', date)
-  }, Object(_wordpress_date__WEBPACK_IMPORTED_MODULE_3__["dateI18n"])(resolvedFormat, date)) : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('No Date');
+  const timeRef = Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["useRef"])();
+  const dateSettings = Object(_wordpress_date__WEBPACK_IMPORTED_MODULE_4__["__experimentalGetSettings"])();
+  const [siteFormat = dateSettings.formats.date] = Object(_wordpress_core_data__WEBPACK_IMPORTED_MODULE_2__["useEntityProp"])('root', 'site', 'date_format');
+  const [date] = Object(_wordpress_core_data__WEBPACK_IMPORTED_MODULE_2__["useEntityProp"])('postType', postTypeSlug, 'date', postId);
+  let postDate = date ? Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("time", {
+    dateTime: Object(_wordpress_date__WEBPACK_IMPORTED_MODULE_4__["dateI18n"])('c', date),
+    ref: timeRef
+  }, Object(_wordpress_date__WEBPACK_IMPORTED_MODULE_4__["dateI18n"])(format || siteFormat, date)) : Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Post Date');
 
   function onChange(attribute) {
     return newValue => {
@@ -243,28 +243,24 @@ function UpdatedTimeEdit({
     };
   }
 
-  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["BlockControls"], {
+  return Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["BlockControls"], {
     group: "block"
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["AlignmentControl"], {
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["AlignmentControl"], {
     value: textAlign,
     onChange: nextAlign => {
       setAttributes({
         textAlign: nextAlign
       });
     }
-  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["InspectorControls"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__["PanelBody"], {
-    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Format settings')
-  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__["CustomSelectControl"], {
-    hideLabelFromVision: true,
-    label: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Date Format'),
-    options: formatOptions,
-    onChange: ({
-      selectedItem
-    }) => setAttributes({
-      format: selectedItem.key
-    }),
-    value: formatOptions.find(option => option.key === resolvedFormat)
-  }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__["RichText"], {
+  })), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["InspectorControls"], null, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_components__WEBPACK_IMPORTED_MODULE_5__["PanelBody"], {
+    title: Object(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_6__["__"])('Settings')
+  }, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["__experimentalDateFormatPicker"], {
+    format: format,
+    defaultFormat: siteFormat,
+    onChange: nextFormat => setAttributes({
+      format: nextFormat
+    })
+  }))), Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])("div", blockProps, Object(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__["createElement"])(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__["RichText"], {
     identifier: "content",
     multiline: false,
     tagName: "span",
@@ -375,6 +371,17 @@ Object(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__["registerBlockType"])('tab
 /***/ (function(module, exports) {
 
 (function() { module.exports = window["wp"]["coreData"]; }());
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+(function() { module.exports = window["wp"]["data"]; }());
 
 /***/ }),
 

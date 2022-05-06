@@ -49,25 +49,10 @@ function tabor_post_modified_time_block_render( $attributes, $content, $block ) 
 	$formatted_date     = get_the_modified_time( isset( $attributes['format'] ) ? $attributes['format'] : '', $post_ID );
 	$content            = empty( $attributes['content'] ) ?  __( 'Updated', 'updated-time-block' ) : $attributes['content'];
 
-	$original_time = get_the_time('U');
-	$modified_time = get_the_modified_time('U');
+	return sprintf(
+		'<div %1$s>%2$s</div>',
+		$wrapper_attributes,
+		esc_html( $content . '&nbsp;' . $formatted_date ),
+	);
 
-	$modified_content = '';
-	if ( $modified_time >= $original_time + 86400 ) {
-		$modified_content .= $content . '&nbsp;' . $formatted_date;
-	}
-
-	if ( ! isset( $block->context['postId'] ) ) {
-		return;
-	}
-
-	if ( $modified_time >= $original_time + 86400 ) {
-		return sprintf(
-			'<div %1$s>%2$s</div>',
-			$wrapper_attributes,
-			esc_html( $content . '&nbsp;' . $formatted_date ),
-		);
-	} else {
-		return;
-	}
 }

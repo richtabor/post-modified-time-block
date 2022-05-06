@@ -6,45 +6,56 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { useEntityProp } from '@wordpress/core-data';
-import { __experimentalGetSettings, dateI18n } from '@wordpress/date';
+import { useEntityProp, store as coreStore } from '@wordpress/core-data';
 import {
 	AlignmentControl,
 	BlockControls,
 	InspectorControls,
 	useBlockProps,
 	RichText,
+	__experimentalDateFormatPicker as DateFormatPicker,
 } from '@wordpress/block-editor';
-import { PanelBody, CustomSelectControl } from '@wordpress/components';
+import {
+	dateI18n,
+	__experimentalGetSettings as getDateSettings,
+} from '@wordpress/date';
+import { PanelBody, DateTimePicker } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { useRef } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
 export default function UpdatedTimeEdit( {
 	attributes: { textAlign, format, content },
-	context: { postId, postType },
+	context: { postId, postType: postTypeSlug, queryId },
 	setAttributes,
 } ) {
-	const [ siteFormat ] = useEntityProp( 'root', 'site', 'date_format' );
-	const [ date ] = useEntityProp( 'postType', postType, 'date', postId );
-	const settings = __experimentalGetSettings();
-	const formatOptions = Object.values( settings.formats ).map(
-		( formatOption ) => ( {
-			key: formatOption,
-			name: dateI18n( formatOption, date ),
-		} )
-	);
-	const resolvedFormat = format || siteFormat || settings.formats.date;
+
 	const blockProps = useBlockProps( {
 		className: classnames( {
 			[ `has-text-align-${ textAlign }` ]: textAlign,
 		} ),
 	} );
 
-	const postDate = date ? (
-		<time dateTime={ dateI18n( 'c', date ) }>
-			{ dateI18n( resolvedFormat, date ) }
+	const timeRef = useRef();
+        const dateSettings = getDateSettings();
+        const [ siteFormat = dateSettings.formats.date ] = useEntityProp(
+		'root',
+		'site',
+		'date_format'
+	);
+	const [ date ] = useEntityProp(
+		'postType',
+		postTypeSlug,
+		'date',
+		postId
+	);
+
+	let postDate = date ? (
+		<time dateTime={ dateI18n( 'c', date ) } ref={ timeRef }>
+			{ dateI18n( format || siteFormat, date ) }
 		</time>
 	) : (
-		__( 'No Date' )
+		__( 'Post Date' )
 	);
 
 	function onChange( attribute ) {
@@ -65,18 +76,12 @@ export default function UpdatedTimeEdit( {
 			</BlockControls>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings' ) }>
-					<CustomSelectControl
-						hideLabelFromVision
-						label={ __( 'Date Format' ) }
-						options={ formatOptions }
-						onChange={ ( { selectedItem } ) =>
-							setAttributes( {
-								format: selectedItem.key,
-							} )
+					<DateFormatPicker
+						format={ format }
+						defaultFormat={ siteFormat }
+						onChange={ ( nextFormat ) =>
+							setAttributes( { format: nextFormat } )
 						}
-						value={ formatOptions.find(
-							( option ) => option.key === resolvedFormat
-						) }
 					/>
 				</PanelBody>
 			</InspectorControls>
