@@ -1,6 +1,6 @@
 {
 	"name": "post-modified-time-block",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "Display the last updated date of a post, for posts older than 24 hours.",
 	"author": {
 		"name": "richtabor",

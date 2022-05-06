@@ -5,7 +5,7 @@
  * Plugin URI:        https://richtabor.com/post-modified-time-block?utm_source=wp-plugins&utm_medium=post-modified-time-block&utm_campaign=plugin-uri
  * Requires at least: 5.7
  * Requires PHP:      7.0
- * Version:           0.1.1
+ * Version:           0.2.0
  * Author:            RichTabor.com
  * Author URI:        https://richtabor.com/?utm_source=wp-plugins&utm_medium=post-modified-time-block&utm_campaign=author-uri
  * License:           GPL-2.0-or-later
